@@ -4,10 +4,12 @@ const app = express();
 const config = require('./config');
 const bodyParser = require("body-parser");
 const morgan = require('morgan');
+const cors = require('cors')
 
 const jsonParser = bodyParser.json();
 
 app.use(morgan('tiny'));
+app.use(cors());
 
 app.post('/', jsonParser, async (req, res) => {
   try{
