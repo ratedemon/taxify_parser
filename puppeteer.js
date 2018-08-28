@@ -4,21 +4,20 @@ const config = require('./config');
 
 module.exports = async (userData) => {
   try{
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
     const page = await browser.newPage();
     await page.goto(`${config.taxify_link}/login`);
 
-    await page.click('#username');
-    await page.type('#username', config.taxify_email);
-  
-    await page.click('#password');
-    await page.type('#password', config.taxify_password);
-    await page.click('form button[type=submit]');
+      await page.click('#username');
+      await page.type('#username', config.taxify_email);
+
+      await page.click('#password');
+      await page.type('#password', config.taxify_password);
+      await page.click('form button[type=submit]');
 
     await page.waitForNavigation();
-    await page.click('#ember152');
-
-    await page.click('#email')
+    await page.click('#ember60');
+    await page.click('#email');
     await page.type('#email', userData.email);
 
     await page.click('#phone')
@@ -27,8 +26,6 @@ module.exports = async (userData) => {
     await page.click('form button[type=submit]');
 
     await page.waitFor(2000);
-    
-    // await page.screenshot({path: 'google.png'});
 
     const result = await page.evaluate(() => {
       let link = document.querySelector('.content > div > div > h4 > a').href;
