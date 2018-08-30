@@ -9,18 +9,18 @@ module.exports = async (userData) => {
     await page.goto(`${config.taxify_link}/login`);
 
       await page.click('#username');
-      await page.type('#username', config.taxify_email);
+      await page.type('#username', userData.login);
 
       await page.click('#password');
-      await page.type('#password', config.taxify_password);
+      await page.type('#password', userData.password);
       await page.click('form button[type=submit]');
 
     await page.waitForNavigation();
-    await page.click('#ember60');
+    await page.click('div > div > div > div.col-md-9.col-sm-8.content > div:nth-child(3) > div:nth-child(1) > h3 > span > a');
     await page.click('#email');
     await page.type('#email', userData.email);
 
-    await page.click('#phone')
+    await page.click('#phone');
     await page.type('#phone', userData.phone);
 
     await page.click('form button[type=submit]');
