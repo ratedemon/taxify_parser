@@ -21,12 +21,30 @@ module.exports = async (userData) => {
     await page.type('#email', userData.email);
 
     await page.click('#phone');
-    await page.type('#phone', userData.phone);
+
+    let phone = '';
+
+    switch(userData.phone[0]){
+      case '0':
+      case 0:
+        phone = `+38${userData.phone}`;
+        break;
+      case '8':
+      case 8:
+        phone = `+3${userData.phone}`;
+        break;
+      case '3':
+      case 3:
+        phone = `+${userData.phone}`;
+        break;
+      default:
+        phone = `+${userData.phone}`
+    }
+    await page.type('#phone', phone);
 
     await page.click('form button[type=submit]');
 
-    await page.waitFor(2000);
-
+    await page.waitFor(1000);
     const result = await page.evaluate(() => {
       let link = document.querySelector('.content > div > div > h4 > a').href;
 
@@ -34,7 +52,7 @@ module.exports = async (userData) => {
     });
     
     await page.goto(result);
-
+    await page.waitFor(2000);
     await page.click('#first_name')
     await page.type('#first_name', userData.first_name);
 
